@@ -2,6 +2,9 @@
 package vista;
 
 import javax.swing.*;
+
+import controlador.ClientesController;
+
 import java.awt.*;
 
 public class MainMenuView extends JFrame {
@@ -18,7 +21,10 @@ public class MainMenuView extends JFrame {
         tabbedPane.addTab("Clientes", new ClientesView());
         
         // Aquí añadiremos las pestañas (Clientes, Habitaciones, Reservas)
-        // Por ahora las dejamos vacías
+        ClientesView clientesView = new ClientesView();
+        new ClientesController(clientesView);
+        tabbedPane.addTab("Clientes", clientesView);
+        
         
         add(tabbedPane);
     }

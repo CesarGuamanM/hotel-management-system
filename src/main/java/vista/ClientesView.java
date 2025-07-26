@@ -103,6 +103,10 @@ public class ClientesView extends JPanel {
     public int getFilaSeleccionada() {
         return tablaClientes.getSelectedRow();
     }
+
+    public JTable getTablaClientes() {
+        return tablaClientes;
+    }
     
     public void limpiarCampos() {
         txtDni.setText("");
