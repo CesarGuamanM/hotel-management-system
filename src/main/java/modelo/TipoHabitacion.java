@@ -5,14 +5,19 @@ public enum TipoHabitacion {
     DOBLE("Doble", 80.0),
     SUITE("Suite", 120.0);
 
-    private final String nombre;
-    private final double precio;
+    private final String descripcion;
+    private final double precioBase;
 
-    private TipoHabitacion(String nombre, double precio) {
-        this.nombre = nombre;
-        this.precio = precio;
+    TipoHabitacion(String descripcion, double precioBase) {
+        this.descripcion = descripcion;
+        this.precioBase = precioBase;
     }
 
-    public String getNombre() { return nombre; }
-    public double getPrecio() { return precio; }
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public double getPrecioBase() {
+        return precioBase;
+    }
 }
