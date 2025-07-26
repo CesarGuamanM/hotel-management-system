@@ -1,3 +1,4 @@
+///////////////////      MENU PRINCIPAL     //////
 package vista;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class MainMenuView extends JFrame {
         
         // Crear el panel con pestañas
         tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Clientes", new ClientesView());
         
         // Aquí añadiremos las pestañas (Clientes, Habitaciones, Reservas)
         // Por ahora las dejamos vacías
