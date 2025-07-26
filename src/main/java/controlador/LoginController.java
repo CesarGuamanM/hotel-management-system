@@ -10,28 +10,48 @@ import javax.swing.JOptionPane;
 
 public class LoginController {
     private LoginView vista;
+    private Usuario usuarioAutenticado;
     
+    // Usuarios de prueba (luego se reemplazará por base de datos)
+    private Usuario[] usuarios = {
+        new Administrador("admin", "admin123", "Admin Principal"),
+        new Recepcionista("recepcion", "recepcion123", "Recepcionista 1")
+    };
+
     public LoginController(LoginView vista) {
         this.vista = vista;
-        
-        // Configurar el action listener para el botón de login
+        configurarListeners();
+    }
+    
+    private void configurarListeners() {
         vista.getBtnLogin().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String usuario = vista.getTxtUsuario().getText();
-                String contrasena = new String(vista.getTxtContrasena().getPassword());
-                
-                // Validación básica (esto debería conectarse con una base de datos)
-                if(usuario.equals("admin") && contrasena.equals("admin123")) {
-                    JOptionPane.showMessageDialog(vista, "Bienvenido Administrador");
-                    // Aquí abriríamos el menú principal
-                } else if(usuario.equals("recepcion") && contrasena.equals("recepcion123")) {
-                    JOptionPane.showMessageDialog(vista, "Bienvenido Recepcionista");
-                    // Aquí abriríamos el menú principal
-                } else {
-                    JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                autenticarUsuario();
             }
         });
+    }
+    
+    private void autenticarUsuario() {
+        String username = vista.getTxtUsuario().getText();
+        String password = new String(vista.getTxtContrasena().getPassword());
+        
+        for (Usuario usuario : usuarios) {
+            if (usuario.getUsername().equals(username)) {
+                if (usuario.getPassword().equals(password)) {
+                    usuarioAutenticado = usuario;
+                    JOptionPane.showMessageDialog(vista, 
+                        "Bienvenido " + usuario.getNombre() + " (" + usuario.getTipoUsuario() + ")");
+                    // Aquí abriríamos el menú principal
+                    return;
+                }
+            }
+        }
+        
+        JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public Usuario getUsuarioAutenticado() {
+        return usuarioAutenticado;
     }
 }
