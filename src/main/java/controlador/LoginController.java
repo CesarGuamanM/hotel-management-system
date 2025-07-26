@@ -1,6 +1,7 @@
 package controlador;
 
 import vista.LoginView;
+import vista.MainMenuView;
 import modelo.Usuario;
 import modelo.Recepcionista;
 import modelo.Administrador;
@@ -31,6 +32,12 @@ public class LoginController {
             }
         });
     }
+
+    private void abrirMenuPrincipal() {
+        MainMenuView menuView = new MainMenuView();
+        menuView.setVisible(true);
+        vista.dispose(); // Cierra la ventana de login
+    }
     
     private void autenticarUsuario() {
         String username = vista.getTxtUsuario().getText();
@@ -42,7 +49,7 @@ public class LoginController {
                     usuarioAutenticado = usuario;
                     JOptionPane.showMessageDialog(vista, 
                         "Bienvenido " + usuario.getNombre() + " (" + usuario.getTipoUsuario() + ")");
-                    // Aquí abriríamos el menú principal
+                    abrirMenuPrincipal();// Aquí abrimos el menú principal
                     return;
                 }
             }
