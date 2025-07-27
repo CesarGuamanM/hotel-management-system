@@ -25,6 +25,9 @@ public class MainMenuView extends JFrame {
         new ClientesController(clientesView);
         tabbedPane.addTab("Clientes", clientesView);
         
+        HabitacionesView habitacionesView = new HabitacionesView();
+        new HabitacionesController(habitacionesView);
+        tabbedPane.addTab("Habitaciones", habitacionesView);
         
         add(tabbedPane);
     }
