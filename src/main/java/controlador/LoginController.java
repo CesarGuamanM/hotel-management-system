@@ -43,6 +43,14 @@ public class LoginController {
         String username = vista.getTxtUsuario().getText();
         String password = new String(vista.getTxtContrasena().getPassword());
         
+        // Validacion de campos vacíos
+        if(username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, 
+                "Usuario y contraseña son obligatorios", 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         for (Usuario usuario : usuarios) {
             if (usuario.getUsername().equals(username)) {
                 if (usuario.getPassword().equals(password)) {
