@@ -4,6 +4,7 @@ package vista;
 import javax.swing.*;
 
 import controlador.ClientesController;
+import controlador.HabitacionesController;
 
 import java.awt.*;
 
@@ -29,6 +30,10 @@ public class MainMenuView extends JFrame {
         new HabitacionesController(habitacionesView);
         tabbedPane.addTab("Habitaciones", habitacionesView);
         
+         ReservasView reservasView = new ReservasView();
+        new ReservasController(reservasView);
+        tabbedPane.addTab("Reservas", reservasView);
+
         add(tabbedPane);
     }
     
