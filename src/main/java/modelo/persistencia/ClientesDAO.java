@@ -10,12 +10,14 @@ public class ClientesDAO {
     
     public void guardarClientes(List<Cliente> clientes) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
-            oos.writeObject(clientes);
+            oos.writeObject(new ArrayList<>(clientes)); // Usamos ArrayList para garantizar serialización
         } catch (IOException e) {
+            System.err.println("Error al guardar clientes: " + e.getMessage());
             e.printStackTrace();
         }
     }
     
+    @SuppressWarnings("unchecked")
     public List<Cliente> cargarClientes() {
         File file = new File(ARCHIVO);
         if (!file.exists()) {
@@ -23,8 +25,19 @@ public class ClientesDAO {
         }
         
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ARCHIVO))) {
-            return (List<Cliente>) ois.readObject();
+            Object obj = ois.readObject();
+            
+            if (obj instanceof List<?>) {
+                List<?> lista = (List<?>) obj;
+                // Verificamos que todos los elementos sean de tipo Cliente
+                if (!lista.isEmpty() && !(lista.get(0) instanceof Cliente)) {
+                    throw new IOException("Formato de archivo inválido");
+                }
+                return (List<Cliente>) lista;
+            }
+            throw new IOException("Formato de archivo inválido");
         } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al cargar clientes: " + e.getMessage());
             e.printStackTrace();
             return new ArrayList<>();
         }
