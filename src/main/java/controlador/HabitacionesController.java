@@ -1,8 +1,9 @@
 package controlador;
 
+
 import vista.HabitacionesView;
 import modelo.Habitacion;
-import modelo.TipoHabitacion;
+//import modelo.TipoHabitacion;
 import modelo.persistencia.HabitacionesDAO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +18,16 @@ public class HabitacionesController {
     
     public HabitacionesController(HabitacionesView vista) {
         this.vista = vista;
-        this.habitacionesDAO = new HabitacionesDAO();
-        this.habitaciones = habitacionesDAO.cargarHabitaciones();
-        cargarHabitacionesEnTabla();
-        configurarListeners();
+        try {
+            this.habitacionesDAO = new HabitacionesDAO();
+            this.habitaciones = habitacionesDAO.cargarHabitaciones();
+            cargarHabitacionesEnTabla();
+            configurarListeners();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vista, 
+                "Error al inicializar el controlador: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void cargarHabitacionesEnTabla() {
@@ -99,12 +106,33 @@ public class HabitacionesController {
             return;
         }
         
-        Habitacion habitacion = habitaciones.get(filaSeleccionada);
-        vista.setNumero(String.valueOf(habitacion.getNumero()));
-        vista.setTipo(habitacion.getTipo());
-        vista.setCaracteristicas(habitacion.getCaracteristicas());
-        
-        // Implementar lógica para guardar cambios
+        try {
+            Habitacion habitacion = habitaciones.get(filaSeleccionada);
+            int nuevoNumero = Integer.parseInt(vista.getNumero());
+            
+            // Verificar si el nuevo número ya existe (excepto para esta habitación)
+            for (Habitacion h : habitaciones) {
+                if (h != habitacion && h.getNumero() == nuevoNumero) {
+                    JOptionPane.showMessageDialog(vista, 
+                        "El número de habitación ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            
+            // Actualizar los datos - SOLUCIÓN AL ERROR
+            habitacion.setNumero(nuevoNumero);  // Necesitarás agregar setNumero() en Habitacion
+            habitacion.setCaracteristicas(vista.getCaracteristicas());
+            habitacion.setTipo(vista.getTipo());  // Ahora debería funcionar
+            
+            habitacionesDAO.guardarHabitaciones(habitaciones);
+            cargarHabitacionesEnTabla();
+            vista.limpiarCampos();
+            
+            JOptionPane.showMessageDialog(vista, "Habitación actualizada correctamente");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(vista, 
+                "El número de habitación debe ser un valor numérico", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void cambiarEstadoHabitacion() {

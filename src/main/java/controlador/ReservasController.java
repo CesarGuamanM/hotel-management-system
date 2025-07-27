@@ -2,14 +2,14 @@ package controlador;
 
 import vista.ReservasView;
 import modelo.Reserva;
-import modelo.Cliente;
-import modelo.Habitacion;
+//import modelo.Cliente;
+//import modelo.Habitacion;
 import modelo.persistencia.ReservasDAO;
-import modelo.persistencia.ClientesDAO;
+//import modelo.persistencia.ClientesDAO;
 import modelo.persistencia.HabitacionesDAO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,13 +18,13 @@ public class ReservasController {
     private ReservasView vista;
     private List<Reserva> reservas;
     private ReservasDAO reservasDAO;
-    private ClientesDAO clientesDAO;
+    //private ClientesDAO clientesDAO;
     private HabitacionesDAO habitacionesDAO;
     
     public ReservasController(ReservasView vista) {
         this.vista = vista;
         this.reservasDAO = new ReservasDAO();
-        this.clientesDAO = new ClientesDAO();
+        //this.clientesDAO = new ClientesDAO();
         this.habitacionesDAO = new HabitacionesDAO();
         this.reservas = reservasDAO.cargarReservas();
         cargarReservasEnTabla();

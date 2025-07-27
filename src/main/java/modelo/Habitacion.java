@@ -1,6 +1,10 @@
 package modelo;
 
-public class Habitacion {
+import java.io.Serializable;
+
+public class Habitacion implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     private int numero;
     private TipoHabitacion tipo;
     private boolean disponible;
