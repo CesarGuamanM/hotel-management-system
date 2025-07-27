@@ -74,7 +74,7 @@ public class ReservasView extends JPanel {
     public String getHabitacion() { return txtHabitacion.getText(); }
     public LocalDate getFechaInicio() { return (LocalDate) txtFechaInicio.getValue(); }
     public LocalDate getFechaFin() { return (LocalDate) txtFechaFin.getValue(); }
-    
+    public JTable getTablaReservas() {return tablaReservas; }
     // Métodos para la tabla
     public void agregarReservaALista(Object[] datosReserva) {
         modeloTable.addRow(datosReserva);
