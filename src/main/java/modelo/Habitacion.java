@@ -19,8 +19,10 @@ public class Habitacion {
     public boolean isDisponible() { return disponible; }
     public String getCaracteristicas() { return caracteristicas; }
 
+    public void setNumero(int numero) { this.numero = numero; }
     public void setDisponible(boolean disponible) { this.disponible = disponible; }
     public void setCaracteristicas(String caracteristicas) { this.caracteristicas = caracteristicas; }
+    public void setTipo(TipoHabitacion tipo){ this.tipo = tipo; }
 
     @Override
     public String toString() {
