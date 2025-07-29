@@ -13,6 +13,8 @@ import java.time.LocalDate;
 //import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -99,14 +101,26 @@ public class ReservasController {
     }
     
     private void mostrarDialogoNuevaReserva() {
-        // Actualizar lista de habitaciones disponibles
-        List<Habitacion> habitacionesDisponibles = habitacionesDAO.cargarHabitaciones()
-            .stream()
-            .filter(Habitacion::isDisponible)
-            .collect(Collectors.toList());
-        
-        vista.cargarHabitaciones(habitacionesDisponibles);
-        vista.mostrarDialogoNuevaReserva();
+        try {
+            // Obtener habitaciones disponibles
+            List<Habitacion> habitacionesDisponibles = habitacionesDAO.cargarHabitaciones()
+                .stream()
+                .filter(Habitacion::isDisponible)
+                .collect(Collectors.toList());
+            
+            // Actualizar el comboBox de habitaciones
+            DefaultComboBoxModel<Habitacion> modeloHabitaciones = new DefaultComboBoxModel<>();
+            for (Habitacion hab : habitacionesDisponibles) {
+                modeloHabitaciones.addElement(hab);
+            }
+            vista.getCbHabitaciones().setModel(modeloHabitaciones);
+            
+            vista.mostrarDialogoNuevaReserva();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vista, 
+                "Error al cargar habitaciones: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void crearNuevaReserva() {
