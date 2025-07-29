@@ -7,8 +7,9 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import javax.swing.border.TitledBorder;
 import modelo.Cliente;
+import java.util.List;
 import modelo.Habitacion;
-
+import javax.swing.DefaultComboBoxModel;
 
 public class ReservasView extends JPanel {
     private JTable tablaReservas;
@@ -42,6 +43,7 @@ public class ReservasView extends JPanel {
         
         panelFiltros.add(new JLabel("Estado:"));
         cbEstado = new JComboBox<>(new String[]{"Todas", "Pendientes", "Confirmadas", "Canceladas"});
+        cbHabitaciones = new JComboBox<>();
         panelFiltros.add(cbEstado);
         
         // Panel de botones
@@ -159,7 +161,11 @@ public class ReservasView extends JPanel {
     public JButton getBtnConfirmarReserva() {
         return btnConfirmarReserva;
     }
-    
+
+    public JComboBox<Habitacion> getCbHabitaciones() {
+        return cbHabitaciones;
+    }
+
 
     // Métodos para la tabla
     public void agregarReservaALista(Object[] datosReserva) {
