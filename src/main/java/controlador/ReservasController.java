@@ -2,15 +2,17 @@ package controlador;
 
 import vista.ReservasView;
 import modelo.Reserva;
-//import modelo.Cliente;
-//import modelo.Habitacion;
+import modelo.Cliente;
+import modelo.Habitacion;
 import modelo.persistencia.ReservasDAO;
-//import modelo.persistencia.ClientesDAO;
+import modelo.persistencia.ClientesDAO;
 import modelo.persistencia.HabitacionesDAO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 //import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,19 +20,34 @@ public class ReservasController {
     private ReservasView vista;
     private List<Reserva> reservas;
     private ReservasDAO reservasDAO;
-    //private ClientesDAO clientesDAO;
+    private ClientesDAO clientesDAO;
     private HabitacionesDAO habitacionesDAO;
     
     public ReservasController(ReservasView vista) {
         this.vista = vista;
         this.reservasDAO = new ReservasDAO();
-        //this.clientesDAO = new ClientesDAO();
+        this.clientesDAO = new ClientesDAO();
         this.habitacionesDAO = new HabitacionesDAO();
         this.reservas = reservasDAO.cargarReservas();
+        
+        cargarDatosIniciales();
         cargarReservasEnTabla();
         configurarListeners();
     }
     
+    private void cargarDatosIniciales() {
+        // Cargar clientes y habitaciones disponibles
+        List<Cliente> clientes = clientesDAO.cargarClientes();
+        List<Habitacion> habitaciones = habitacionesDAO.cargarHabitaciones()
+            .stream()
+            .filter(Habitacion::isDisponible)
+            .collect(Collectors.toList());
+
+        vista.cargarClientes(clientes);
+        vista.cargarHabitaciones(habitaciones);
+        cargarReservasEnTabla();
+    }
+
     private void cargarReservasEnTabla() {
         DefaultTableModel model = (DefaultTableModel) vista.getTablaReservas().getModel();
         model.setRowCount(0); // Limpiar tabla
@@ -49,6 +66,9 @@ public class ReservasController {
     }
     
     private void configurarListeners() {
+
+        vista.getBtnConfirmarReserva().addActionListener(e -> crearNuevaReserva());
+
         vista.setNuevaReservaListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,8 +99,70 @@ public class ReservasController {
     }
     
     private void mostrarDialogoNuevaReserva() {
-        // Implementar diálogo para nueva reserva
-        JOptionPane.showMessageDialog(vista, "Funcionalidad de nueva reserva en desarrollo");
+        // Actualizar lista de habitaciones disponibles
+        List<Habitacion> habitacionesDisponibles = habitacionesDAO.cargarHabitaciones()
+            .stream()
+            .filter(Habitacion::isDisponible)
+            .collect(Collectors.toList());
+        
+        vista.cargarHabitaciones(habitacionesDisponibles);
+        vista.mostrarDialogoNuevaReserva();
+    }
+
+    private void crearNuevaReserva() {
+        try {
+            Cliente cliente = vista.getClienteSeleccionado();
+            Habitacion habitacion = vista.getHabitacionSeleccionada();
+            LocalDate fechaInicio = vista.getNuevaFechaInicio();
+            LocalDate fechaFin = vista.getNuevaFechaFin();
+
+            // Validaciones
+            if (cliente == null || habitacion == null) {
+                JOptionPane.showMessageDialog(vista, "Seleccione cliente y habitación", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (fechaFin.isBefore(fechaInicio)) {
+                JOptionPane.showMessageDialog(vista, "La fecha fin debe ser posterior a la fecha inicio", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar disponibilidad
+            boolean disponible = reservas.stream()
+                .filter(r -> r.getHabitacion().equals(habitacion))
+                .noneMatch(r -> !r.getFechaFin().isBefore(fechaInicio) && !r.getFechaInicio().isAfter(fechaFin));
+
+            if (!disponible) {
+                JOptionPane.showMessageDialog(vista, "La habitación no está disponible en las fechas seleccionadas", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Crear nueva reserva
+            Reserva nuevaReserva = new Reserva(
+                reservasDAO.getNuevoId(),
+                cliente,
+                habitacion,
+                fechaInicio,
+                fechaFin
+            );
+
+            // Actualizar estado de la habitación
+            habitacion.setDisponible(false);
+            habitacionesDAO.guardarHabitaciones(habitacionesDAO.cargarHabitaciones());
+
+            // Guardar reserva
+            reservas.add(nuevaReserva);
+            reservasDAO.guardarReservas(reservas);
+            
+            // Actualizar vista
+            cargarReservasEnTabla();
+            vista.ocultarDialogoNuevaReserva();
+            
+            JOptionPane.showMessageDialog(vista, "Reserva creada exitosamente!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vista, "Error al crear reserva: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
     }
     
     private void realizarCheckIn() {

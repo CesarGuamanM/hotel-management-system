@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import javax.swing.border.TitledBorder;
+import modelo.Cliente;
+import modelo.Habitacion;
+
 
 public class ReservasView extends JPanel {
     private JTable tablaReservas;
@@ -14,6 +17,13 @@ public class ReservasView extends JPanel {
     private JTextField txtCliente, txtHabitacion;
     private JFormattedTextField txtFechaInicio, txtFechaFin;
     private JComboBox<String> cbEstado;
+
+    private JDialog nuevaReservaDialog;
+    private JComboBox<Cliente> cbClientes;
+    private JComboBox<Habitacion> cbHabitaciones;
+    private JFormattedTextField txtNuevaFechaInicio;
+    private JFormattedTextField txtNuevaFechaFin;
+    private JButton btnConfirmarReserva;
     
     public ReservasView() {
         setLayout(new BorderLayout());
@@ -67,7 +77,61 @@ public class ReservasView extends JPanel {
         // Añadir componentes al panel principal
         add(panelNorte, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+        initNuevaReservaDialog();
     }
+
+    private void initNuevaReservaDialog() {
+        nuevaReservaDialog = new JDialog();
+        nuevaReservaDialog.setTitle("Nueva Reserva");
+        nuevaReservaDialog.setSize(400, 300);
+        nuevaReservaDialog.setLayout(new GridLayout(5, 2, 10, 10));
+        
+        // Componentes del diálogo
+        nuevaReservaDialog.add(new JLabel("Cliente:"));
+        cbClientes = new JComboBox<>();
+        nuevaReservaDialog.add(cbClientes);
+
+        nuevaReservaDialog.add(new JLabel("Habitación:"));
+        cbHabitaciones = new JComboBox<>();
+        nuevaReservaDialog.add(cbHabitaciones);
+
+        nuevaReservaDialog.add(new JLabel("Fecha Inicio:"));
+        txtNuevaFechaInicio = new JFormattedTextField(LocalDate.now());
+        nuevaReservaDialog.add(txtNuevaFechaInicio);
+
+        nuevaReservaDialog.add(new JLabel("Fecha Fin:"));
+        txtNuevaFechaFin = new JFormattedTextField(LocalDate.now().plusDays(1));
+        nuevaReservaDialog.add(txtNuevaFechaFin);
+
+        btnConfirmarReserva = new JButton("Confirmar Reserva");
+        nuevaReservaDialog.add(btnConfirmarReserva);
+    }
+
+    // Métodos para el diálogo de nueva reserva
+    public void mostrarDialogoNuevaReserva() {
+        nuevaReservaDialog.setVisible(true);
+    }
+
+    public void ocultarDialogoNuevaReserva() {
+        nuevaReservaDialog.setVisible(false);
+    }
+
+    public void cargarClientes(List<Cliente> clientes) {
+        DefaultComboBoxModel<Cliente> modelo = new DefaultComboBoxModel<>();
+        for (Cliente cliente : clientes) {
+            modelo.addElement(cliente);
+        }
+        cbClientes.setModel(modelo);
+    }
+
+    public void cargarHabitaciones(List<Habitacion> habitaciones) {
+        DefaultComboBoxModel<Habitacion> modelo = new DefaultComboBoxModel<>();
+        for (Habitacion habitacion : habitaciones) {
+            modelo.addElement(habitacion);
+        }
+        cbHabitaciones.setModel(modelo);
+    }
+
     
     // Getters para los datos del formulario
     public String getCliente() { return txtCliente.getText(); }
@@ -75,6 +139,28 @@ public class ReservasView extends JPanel {
     public LocalDate getFechaInicio() { return (LocalDate) txtFechaInicio.getValue(); }
     public LocalDate getFechaFin() { return (LocalDate) txtFechaFin.getValue(); }
     public JTable getTablaReservas() {return tablaReservas; }
+
+    public Cliente getClienteSeleccionado() {
+        return (Cliente) cbClientes.getSelectedItem();
+    }
+
+    public Habitacion getHabitacionSeleccionada() {
+        return (Habitacion) cbHabitaciones.getSelectedItem();
+    }
+
+    public LocalDate getNuevaFechaInicio() {
+        return (LocalDate) txtNuevaFechaInicio.getValue();
+    }
+
+    public LocalDate getNuevaFechaFin() {
+        return (LocalDate) txtNuevaFechaFin.getValue();
+    }
+
+    public JButton getBtnConfirmarReserva() {
+        return btnConfirmarReserva;
+    }
+    
+
     // Métodos para la tabla
     public void agregarReservaALista(Object[] datosReserva) {
         modeloTable.addRow(datosReserva);
