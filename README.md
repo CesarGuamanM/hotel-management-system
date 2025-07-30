@@ -18,11 +18,24 @@ Sistema de gestión de reservas para hotel desarrollado en Java usando Swing y e
 ``bash
 git clone [url]
 
-### 3. Ejecutar aplicación:
+### 2. Ejecutar aplicación:
 
 java -cp target/classes main.Main
 
 Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual Studio Code y ejecutar main.Main.
+
+## Funcionalidad del PROYECTO
+
+### ¿Cómo funciona el sistema?
+
+Este sistema permite gestionar las **reservas de un hotel** a través de una interfaz gráfica desarrollada en Java con Swing. Está organizado utilizando el patrón **MVC (Modelo - Vista - Controlador)** para mantener una estructura limpia y modular del código.
+
+### Funcionalidades principales
+
+- **Login**: acceso al sistema mediante usuario y contraseña.
+- **Gestión de clientes**: registrar, editar y eliminar información de los clientes.
+- **Visualización de habitaciones**: muestra información de habitaciones disponibles.
+- **Gestión de reservas**: permite realizar nuevas reservas y cancelarlas según disponibilidad de fechas.
 
 ##  Estructura del Proyecto
 
