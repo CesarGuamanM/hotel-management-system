@@ -26,7 +26,7 @@ Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual
 
 ##  Estructura del Proyecto
 
-<pre> ```
+<pre>
   hotel-management-system/
 ├── src/
 │   └── main/
@@ -39,7 +39,7 @@ Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-  ``` </pre>
+</pre>
 
 ## Capturas
 
