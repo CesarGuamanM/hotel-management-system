@@ -10,10 +10,6 @@ Sistema de gestión de reservas para hotel desarrollado en Java usando Swing y e
 ##  Requisitos
 
 - Java 11 o superior  
-- Maven  
-- Librerías utilizadas:
-  - SQLite (persistencia de datos)
-  - JCalendar (selección de fechas en formularios)
 
 ##  Instrucciones
 
@@ -21,9 +17,6 @@ Sistema de gestión de reservas para hotel desarrollado en Java usando Swing y e
 
 ``bash
 git clone [url]
-
-### 2. Compilar con Maven:
-mvn compile
 
 ### 3. Ejecutar aplicación:
 
@@ -33,18 +26,7 @@ Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual
 
 ##  Estructura del Proyecto
 
-hotel-management-system/
-├── src/
-│   └── main/
-│       └── java/
-│           ├── controlador/        # Lógica de control (MVC)
-│           ├── main/               # Clase principal del sistema
-│           ├── modelo/             # Clases del modelo
-│           │   └── persistencia/   # Acceso a datos (DAOs)
-│           └── vista/              # Interfaces gráficas (Swing)
-├── .gitignore
-├── LICENSE
-├── README.md
+<pre> ```text hotel-management-system/ ├── src/ │ └── main/ │ └── java/ │ ├── controlador/ # Lógica de control (MVC) │ ├── main/ # Clase principal del sistema │ ├── modelo/ # Clases del modelo │ │ └── persistencia/ # Acceso a datos (DAOs) │ └── vista/ # Interfaces gráficas (Swing) ├── .gitignore ├── LICENSE ├── README.md ``` </pre>
 
 ## Capturas
 
