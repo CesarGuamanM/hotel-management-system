@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+//import modelo.Cliente;
 
 public class ClientesView extends JPanel {
     private JTable tablaClientes;
@@ -76,6 +77,18 @@ public class ClientesView extends JPanel {
     public String getEmail() { return txtEmail.getText(); }
     public String getTelefono() { return txtTelefono.getText(); }
     
+    public JButton getBtnAgregar() {
+        return btnAgregar;
+    }
+
+    public JButton getBtnEditar() {
+        return btnEditar;
+    }
+
+    public JButton getBtnEliminar() {
+        return btnEliminar;
+    }
+
     // Setters para los campos de texto
     public void setDni(String dni) { txtDni.setText(dni); }
     public void setNombre(String nombre) { txtNombre.setText(nombre); }
@@ -106,6 +119,11 @@ public class ClientesView extends JPanel {
 
     public JTable getTablaClientes() {
         return tablaClientes;
+    }
+
+    // Getter para txtDni
+    public JTextField getTxtDni() {
+        return txtDni;
     }
     
     public void limpiarCampos() {
