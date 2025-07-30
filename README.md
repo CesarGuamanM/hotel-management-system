@@ -17,15 +17,15 @@ Sistema de gestión de reservas para hotel desarrollado en Java usando Swing y e
 
 ##  Instrucciones
 
-# 1. Clonar repositorio:
+### 1. Clonar repositorio:
 
 ``bash
 git clone [url]
 
-# 2. Compilar con Maven:
+### 2. Compilar con Maven:
 mvn compile
 
-# 3. Ejecutar aplicación:
+### 3. Ejecutar aplicación:
 
 java -cp target/classes main.Main
 
@@ -50,4 +50,5 @@ hotel-management-system/
 
 
 ## Diagrama UML
+<img width="2911" height="892" alt="Reserva_hotel" src="https://github.com/user-attachments/assets/a1892724-90e8-48eb-b2f7-b92196c3856b" />
 
