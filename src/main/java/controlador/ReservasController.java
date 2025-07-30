@@ -31,9 +31,12 @@ public class ReservasController {
         this.clientesDAO = new ClientesDAO();
         this.habitacionesDAO = new HabitacionesDAO();
         this.reservas = reservasDAO.cargarReservas();
-        
+        // Cargar datos iniciales
         cargarDatosIniciales();
+        // Aplicar filtros iniciales
+        aplicarFiltros();
         cargarReservasEnTabla();
+        // Configurar listeners
         configurarListeners();
     }
     
@@ -51,10 +54,54 @@ public class ReservasController {
     }
 
     private void cargarReservasEnTabla() {
+        cargarReservasEnTabla(this.reservas);
+    }
+
+    
+    public void limpiarFiltros() {
+        vista.limpiarFiltros();
+        aplicarFiltros(); // Esto mostrará todas las reservas
+    }
+
+    private void aplicarFiltros() {
+        LocalDate fechaDesde = vista.getFechaDesde();
+        LocalDate fechaHasta = vista.getFechaHasta();
+        String estadoFiltro = vista.getEstadoFiltro();
+
+        List<Reserva> reservasFiltradas = reservas.stream()
+            .filter(r -> cumpleFiltroFecha(r, fechaDesde, fechaHasta))
+            .filter(r -> cumpleFiltroEstado(r, estadoFiltro))
+            .collect(Collectors.toList());
+
+        cargarReservasEnTabla(reservasFiltradas);
+    }
+
+    private boolean cumpleFiltroFecha(Reserva reserva, LocalDate fechaDesde, LocalDate fechaHasta) {
+        return (fechaDesde == null || !reserva.getFechaInicio().isBefore(fechaDesde)) &&
+            (fechaHasta == null || !reserva.getFechaFin().isAfter(fechaHasta));
+    }
+
+    private boolean cumpleFiltroEstado(Reserva reserva, String estadoFiltro) {
+        switch (estadoFiltro) {
+            case "Todas":
+                return true;
+            case "Pendientes":
+                return !reserva.isPagado();
+            case "Confirmadas":
+                return reserva.isPagado();
+            case "Canceladas":
+                return false; // Asumiendo que no hay estado "Cancelada" en el modelo
+            default:
+                return true;
+        }
+    }
+
+    // Modificamos el método cargarReservasEnTabla para aceptar una lista
+    private void cargarReservasEnTabla(List<Reserva> reservasACargar) {
         DefaultTableModel model = (DefaultTableModel) vista.getTablaReservas().getModel();
-        model.setRowCount(0); // Limpiar tabla
+        model.setRowCount(0);
         
-        for (Reserva reserva : reservas) {
+        for (Reserva reserva : reservasACargar) {
             model.addRow(new Object[]{
                 reserva.getId(),
                 reserva.getCliente().getNombre() + " " + reserva.getCliente().getApellido(),
@@ -98,8 +145,11 @@ public class ReservasController {
                 cancelarReserva();
             }
         });
+
+        vista.setFiltroEstadoListener(e -> aplicarFiltros());
+        vista.setFiltroFechaListener(e -> aplicarFiltros());
     }
-    
+
     private void mostrarDialogoNuevaReserva() {
         try {
             // Obtener habitaciones disponibles
@@ -217,9 +267,13 @@ public class ReservasController {
                 "No se puede hacer Check-Out de una reserva no confirmada", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        reserva.getHabitacion().setDisponible(true);
+        reserva.setPagado(false);
+        reserva.getHabitacion().setDisponible(false);
+        //reserva.getHabitacion().setDisponible(false);
+        reservasDAO.guardarReservas(reservas);
         habitacionesDAO.guardarHabitaciones(habitacionesDAO.cargarHabitaciones()); // Actualizar estado de habitación
+        //reserva.getHabitacion().setDisponible(true);
+
         
         cargarReservasEnTabla();
         JOptionPane.showMessageDialog(vista, "Check-Out realizado exitosamente");
