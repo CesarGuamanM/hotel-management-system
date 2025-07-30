@@ -9,7 +9,7 @@ import javax.swing.border.TitledBorder;
 import modelo.Cliente;
 import java.util.List;
 import modelo.Habitacion;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionEvent;
 
 public class ReservasView extends JPanel {
     private JTable tablaReservas;
@@ -25,6 +25,7 @@ public class ReservasView extends JPanel {
     private JFormattedTextField txtNuevaFechaInicio;
     private JFormattedTextField txtNuevaFechaFin;
     private JButton btnConfirmarReserva;
+    private boolean checkOutRealizado;
     
     public ReservasView() {
         setLayout(new BorderLayout());
@@ -109,6 +110,12 @@ public class ReservasView extends JPanel {
         nuevaReservaDialog.add(btnConfirmarReserva);
     }
 
+    public void limpiarFiltros() {
+        txtFechaInicio.setValue(LocalDate.now());
+        txtFechaFin.setValue(LocalDate.now().plusDays(7));
+        cbEstado.setSelectedItem("Todas");
+    }
+
     // Métodos para el diálogo de nueva reserva
     public void mostrarDialogoNuevaReserva() {
         nuevaReservaDialog.setVisible(true);
@@ -134,6 +141,10 @@ public class ReservasView extends JPanel {
         cbHabitaciones.setModel(modelo);
     }
 
+    public boolean isCheckOutRealizado() {
+        return checkOutRealizado;
+    }
+
     
     // Getters para los datos del formulario
     public String getCliente() { return txtCliente.getText(); }
@@ -141,6 +152,28 @@ public class ReservasView extends JPanel {
     public LocalDate getFechaInicio() { return (LocalDate) txtFechaInicio.getValue(); }
     public LocalDate getFechaFin() { return (LocalDate) txtFechaFin.getValue(); }
     public JTable getTablaReservas() {return tablaReservas; }
+
+
+    public String getEstadoFiltro() {
+        return (String) cbEstado.getSelectedItem();
+    }
+
+    // Métodos para obtener los valores de filtrado
+    public LocalDate getFechaDesde() {
+        try {
+            return (LocalDate) txtFechaInicio.getValue();
+        } catch (Exception e) {
+            return LocalDate.now();
+        }
+    }
+
+    public LocalDate getFechaHasta() {
+        try {
+            return (LocalDate) txtFechaFin.getValue();
+        } catch (Exception e) {
+            return LocalDate.now().plusDays(7);
+        }
+    }
 
     public Cliente getClienteSeleccionado() {
         return (Cliente) cbClientes.getSelectedItem();
@@ -195,5 +228,21 @@ public class ReservasView extends JPanel {
     
     public int getFilaSeleccionada() {
         return tablaReservas.getSelectedRow();
+    }
+
+    // Métodos para configurar listeners de filtrado
+    public void setFiltroEstadoListener(ActionListener listener) {
+        cbEstado.addActionListener(listener);
+    }
+
+    public void setFiltroFechaListener(ActionListener listener) {
+        txtFechaInicio.addPropertyChangeListener("value", e -> listener.actionPerformed(
+            new ActionEvent(e.getSource(), ActionEvent.ACTION_PERFORMED, "fechaCambiada")));
+        txtFechaFin.addPropertyChangeListener("value", e -> listener.actionPerformed(
+            new ActionEvent(e.getSource(), ActionEvent.ACTION_PERFORMED, "fechaCambiada")));
+    }
+
+    public void setCheckOutRealizado(boolean checkOutRealizado) {
+        this.checkOutRealizado = checkOutRealizado;
     }
 }

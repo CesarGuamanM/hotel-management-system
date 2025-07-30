@@ -21,7 +21,7 @@ public class MainMenuView extends JFrame {
         
         // Crear el panel con pestañas
         tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Clientes", new ClientesView());
+        //tabbedPane.addTab("Clientes", new ClientesView());
         
         // Aquí añadiremos las pestañas (Clientes, Habitaciones, Reservas)
         ClientesView clientesView = new ClientesView();
