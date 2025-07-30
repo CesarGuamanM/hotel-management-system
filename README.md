@@ -78,3 +78,7 @@ Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual
 ## Diagrama UML
 <img width="2911" height="892" alt="Reserva_hotel" src="https://github.com/user-attachments/assets/a1892724-90e8-48eb-b2f7-b92196c3856b" />
 
+
+## Video de Sustentación 
+**Enclace**: -> https://www.youtube.com/watch?v=WDz_MSWfReU
+
