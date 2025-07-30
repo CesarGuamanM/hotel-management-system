@@ -29,7 +29,7 @@ Este sistema permite gestionar las **reservas de un hotel** a través de una int
 ### 1. Clonar repositorio:
 
 ``bash
-git clone [url]
+git clone -> https://github.com/CesarGuamanM/hotel-management-system.git
 
 ### 2. Ejecutar aplicación:
 
