@@ -1,22 +1,53 @@
-# Sistema de Gestión de Hotel (hotel-management-system)
-Sistema de gestión de reservas para hotel con Java Swing y MVC
-## Integrantes
-- César Guamán
-- Sebastian Tacuri
+#  Sistema de Gestión de Hotel
 
-## Instrucciones
-1. Clonar repositorio: `git clone [URL]`
-2. Abrir en VS Code: `code hotel-management-system`
+Sistema de gestión de reservas para hotel desarrollado en Java usando Swing y el patrón arquitectónico MVC.
 
-## Estructura
-HOTEL-MANAGEMENT-SYSTEM
-    src\main
-        java
-            controlador
-            main
-            modelo
-            vista
-        resources
-    .gitignore
-    LICENSE
-    README.md
+##  Integrantes
+
+- César Guamán (Rol: Vista / Controlador)  
+- Sebastián Tacuri (Rol: Modelo / Persistencia)
+
+##  Requisitos
+
+- Java 11 o superior  
+- Maven  
+- Librerías utilizadas:
+  - SQLite (persistencia de datos)
+  - JCalendar (selección de fechas en formularios)
+
+##  Instrucciones
+
+# 1. Clonar repositorio:
+
+``bash
+git clone [url]
+
+# 2. Compilar con Maven:
+mvn compile
+
+# 3. Ejecutar aplicación:
+
+java -cp target/classes main.Main
+
+Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual Studio Code y ejecutar main.Main.
+
+##  Estructura del Proyecto
+
+hotel-management-system/
+├── src/
+│   └── main/
+│       └── java/
+│           ├── controlador/        # Lógica de control (MVC)
+│           ├── main/               # Clase principal del sistema
+│           ├── modelo/             # Clases del modelo
+│           │   └── persistencia/   # Acceso a datos (DAOs)
+│           └── vista/              # Interfaces gráficas (Swing)
+├── .gitignore
+├── LICENSE
+├── README.md
+
+## Capturas
+
+
+## Diagrama UML
+
