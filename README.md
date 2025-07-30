@@ -4,8 +4,8 @@ Sistema de gestión de reservas para hotel desarrollado en Java usando Swing y e
 
 ##  Integrantes
 
-- César Guamán (Rol: Vista / Controlador)  
-- Sebastián Tacuri (Rol: Modelo / Persistencia)
+- César Guamá
+- Sebastián Tacuri
 
 ##  Requisitos
 
