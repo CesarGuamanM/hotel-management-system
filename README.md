@@ -26,7 +26,20 @@ Alternativamente, puedes abrir el proyecto en un IDE como IntelliJ IDEA o Visual
 
 ##  Estructura del Proyecto
 
-<pre> ```text hotel-management-system/ ├── src/ │ └── main/ │ └── java/ │ ├── controlador/ # Lógica de control (MVC) │ ├── main/ # Clase principal del sistema │ ├── modelo/ # Clases del modelo │ │ └── persistencia/ # Acceso a datos (DAOs) │ └── vista/ # Interfaces gráficas (Swing) ├── .gitignore ├── LICENSE ├── README.md ``` </pre>
+<pre> ```
+  hotel-management-system/
+├── src/
+│   └── main/
+│       └── java/
+│           ├── controlador/        # Lógica de control (MVC)
+│           ├── main/               # Clase principal del sistema
+│           ├── modelo/             # Clases del modelo
+│           │   └── persistencia/   # Acceso a datos (DAOs)
+│           └── vista/              # Interfaces gráficas (Swing)
+├── .gitignore
+├── LICENSE
+├── README.md
+  ``` </pre>
 
 ## Capturas
 
